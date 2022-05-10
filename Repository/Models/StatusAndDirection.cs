@@ -1,10 +1,10 @@
 ﻿namespace Repository.Models
 {
-    public enum StatusAndDirection
+    public enum StatusAndDirection : int
     {
-        Moving,
-        NotMoving,
-        Broken,
-        UnderRepair
+        Moving = 0,
+        NotMoving = 1,
+        Broken = 2,
+        UnderRepair = 3,
     }
 }

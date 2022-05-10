@@ -1,10 +1,10 @@
 ﻿namespace Repository.Models
 {
-    public enum Door
+    public enum Door : int
     {
-        Closed,
-        Opening,
-        Open,
-        Closing
+        Closed = 0,
+        Opening = 1,
+        Open = 2,
+        Closing = 3,
     }
 }

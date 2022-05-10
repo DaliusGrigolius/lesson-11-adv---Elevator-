@@ -1,4 +1,5 @@
 ﻿using Repository.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Repository.DataAccess
@@ -10,10 +11,15 @@ namespace Repository.DataAccess
 
         public BuildingRepo(int floorsNumber, int elevatorsNumber)
         {
+            if (floorsNumber < 2 || elevatorsNumber < 2)
+            {
+                throw new Exception("the number of floors of the building and the number of elevators of the building can't be less than 2");
+            }
+
             Elevators = new List<Elevator>();
             for (int i = 0; i < elevatorsNumber; i++)
             {
-                Elevators.Add(new Elevator(1, StatusAndDirection.NotMoving, Door.Closed));
+                Elevators.Add(new Elevator(i, 1, StatusAndDirection.NotMoving, Door.Closed));
             }
 
             Building = new Building(floorsNumber, Elevators);
