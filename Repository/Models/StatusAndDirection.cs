@@ -2,7 +2,8 @@
 {
     public enum StatusAndDirection : int
     {
-        Moving = 0,
+        MovingUp = 0,
         Chilling = 1,
+        MovingDown = 2,
     }
 }

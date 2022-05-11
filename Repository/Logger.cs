@@ -6,8 +6,8 @@ namespace Repository
     {
         public void AddLogToFile(string text)
         {
-            string filePath = @"C:\Users\User\Desktop\repos\lesson 11 adv\Logs\logger.txt";
-            File.WriteAllText(filePath, text);
+            string filePath = @"..\..\..\..\Logs\logger.txt";
+            File.AppendAllText(filePath, text);
         }
     }
 }
