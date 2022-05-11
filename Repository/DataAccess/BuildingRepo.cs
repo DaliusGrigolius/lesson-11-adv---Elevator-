@@ -13,13 +13,14 @@ namespace Repository.DataAccess
         {
             if (floorsNumber < 2 || elevatorsNumber < 2)
             {
-                throw new Exception("the number of floors of the building and the number of elevators of the building can't be less than 2");
+                throw new Exception("The number of floors of the building and the number of elevators of the building can't be less than 2");
             }
 
             Elevators = new List<Elevator>();
             for (int i = 0; i < elevatorsNumber; i++)
             {
-                Elevators.Add(new Elevator(i, 1, StatusAndDirection.NotMoving, Door.Closed));
+                List<int> calls = new();
+                Elevators.Add(new Elevator(i, 1, StatusAndDirection.Chilling, Door.Closed, calls));
             }
 
             Building = new Building(floorsNumber, Elevators);

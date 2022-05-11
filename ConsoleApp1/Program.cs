@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Repository
+namespace ConsoleApp1
 {
     internal class Program
     {
