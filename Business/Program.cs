@@ -9,16 +9,16 @@ namespace Business
     {
         public static void Main(string[] args)
         {
-            int buildingHasFloors = 12;
-            Console.WriteLine($"Floors - {buildingHasFloors}");
+            int floorsNumber = 12;
+            int elevatorsNumber = 4;
+            Console.WriteLine($"Floors - {floorsNumber}");
 
-            BuildingRepo buildingRepo = new BuildingRepo(buildingHasFloors, 4);
-            Logger logger = new Logger();
-            ElevatorCalling calling = new ElevatorCalling();
+            IBuildingRepo buildingRepo = new BuildingRepo(floorsNumber, elevatorsNumber);
+            ElevatorCalling calling = new();
 
             var currentBuilding = buildingRepo.GetBuilding();
-            logger.AddLogToFile($"Floors - {currentBuilding.Floors}\r\n");
-            calling.CallElevator(buildingRepo, 5, 1, logger, 5);
+            Logger.AddLogToFile($"Floors - {currentBuilding.Floors}\r\n");
+            calling.CallElevator(buildingRepo, 5, 1, 5);
         }
     }
 }
