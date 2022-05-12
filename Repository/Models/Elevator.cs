@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Repository.Models
+﻿namespace Repository.Models
 {
     public class Elevator
     {

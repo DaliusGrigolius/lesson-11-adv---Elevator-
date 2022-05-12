@@ -1,6 +1,7 @@
 ﻿using Business.Services;
 using Repository;
 using Repository.DataAccess;
+using Repository.Models;
 using System;
 
 namespace Business
@@ -9,20 +10,23 @@ namespace Business
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Enter floors number: ");
+            // TODO: 1. tryParse for inputs 2. callElevator params must be only variables from inputs
+            Console.Write("Enter floors number: ");
             int floorsNumber = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter elevators number: ");
+            Console.Write("Enter elevators number: ");
             int elevatorsNumber = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter how many floors you want to visit: ");
+            int numberOfTravelPoints = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine($"Floors - {floorsNumber}");
 
             IBuildingRepo buildingRepo = new BuildingRepo(floorsNumber, elevatorsNumber);
-            Logger _logger = new();
-            ElevatorCalling calling = new();
+            ILogger _logger = new Logger();
+            IElevatorCalling calling = new ElevatorCalling();
 
-            var currentBuilding = buildingRepo.GetBuilding();
+            Building currentBuilding = buildingRepo.GetBuilding();
             _logger.AddLogToFile($"Floors - {currentBuilding.Floors}\r\n", "log");
-            calling.CallElevator(buildingRepo, 1, 1, 4, _logger);
+            calling.CallElevator(currentBuilding, 1, 1, numberOfTravelPoints, _logger);
         }
     }
 }
