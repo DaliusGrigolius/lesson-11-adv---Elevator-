@@ -18,7 +18,7 @@ namespace Business
 
             var currentBuilding = buildingRepo.GetBuilding();
             Logger.AddLogToFile($"Floors - {currentBuilding.Floors}\r\n");
-            calling.CallElevator(buildingRepo, 5, 1, 5);
+            calling.CallElevator(buildingRepo, 12, 2, 5);
         }
     }
 }

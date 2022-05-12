@@ -9,10 +9,17 @@ namespace Business.Services
     public class ElevatorCalling
     {
         private int Counter { get; set; } = 0;
-        
+
         public void CallElevator(IBuildingRepo buildingRepo, int myPosition, int elevatorId, int numberOfTravelPoints)
         {
-            CheckRecursiveRepeat(numberOfTravelPoints, myPosition);
+            if (Counter == numberOfTravelPoints)
+            {
+                Console.WriteLine($"Elevator chilling @floor{myPosition}");
+                Logger.AddLogToFile($"Elevator chilling @floor{myPosition}\r\n");
+                return;
+            }
+            Counter++;
+
             Building currentBuilding = buildingRepo.GetBuilding();
             CheckParameters(myPosition, currentBuilding, elevatorId);
 
@@ -20,46 +27,22 @@ namespace Business.Services
             int elevatorPosition = currentBuilding.Elevators[elevatorId].Floor;
 
             ElevatorInfo(elevatorPosition);
-            ExecuteCallByPositions(elevatorPosition, myPosition, currentElevator, numberOfTravelPoints, currentBuilding, elevatorId, buildingRepo);
+
+            ExecuteCallByPositions(myPosition, currentElevator, numberOfTravelPoints, currentBuilding, elevatorId, buildingRepo, numberOfTravelPoints);
         }
 
-        private void CheckRecursiveRepeat(int journeyTimes, int myPosition)
+        private void ExecuteCallByPositions(int myPosition, Elevator currentElevator, int journeyTimes, Building currentBuilding, int elevatorId, IBuildingRepo building, int numberOfTravelPoints)
         {
-            if (Counter == journeyTimes)
-            {
-                Console.WriteLine($"Elevator chilling @floor{myPosition}");
-                Logger.AddLogToFile($"Elevator chilling @floor{myPosition}\r\n");
-                return;
-            }
-            Counter++;
-        }
+            Console.WriteLine($"Elevator call @{DateTime.Now} to floor {myPosition}");
+            Logger.AddLogToFile($"Elevator call @{DateTime.Now} to floor {myPosition}\r\n");
 
-        private void ExecuteCallByPositions(int elevatorPosition, int myPosition, Elevator currentElevator, int journeyTimes, Building currentBuilding, int elevatorId, IBuildingRepo building)
-        {
-            if (elevatorPosition == myPosition)
-            {
-                Console.WriteLine($"Elevator call @{DateTime.Now} to floor {myPosition}");
-                Logger.AddLogToFile($"Elevator call @{DateTime.Now} to floor {myPosition}\r\n");
+            ExecuteMovementAccordingToPositions(myPosition, currentElevator);
 
-                DoorOpenClose(currentElevator);
+            currentElevator.Floor = myPosition;
+            Random random = new();
+            if (Counter != journeyTimes) myPosition = random.Next(1, currentBuilding.Floors + 1);
 
-                currentElevator.Status = StatusAndDirection.Chilling;
-                Console.WriteLine($"Elevator chilling @floor{currentElevator.Floor}");
-                Logger.AddLogToFile($"Elevator chilling @floor{currentElevator.Floor}\r\n");
-            }
-            else
-            {
-                Random random = new();
-                Console.WriteLine($"Elevator call @{DateTime.Now} to floor {myPosition}");
-                Logger.AddLogToFile($"Elevator call @{DateTime.Now} to floor {myPosition}\r\n");
-
-                ExecuteMovementAccordingToPositions(myPosition, currentElevator);
-
-                currentElevator.Floor = myPosition;
-                if (Counter != journeyTimes - 1) myPosition = random.Next(1, currentBuilding.Floors + 1);
-
-                CallElevator(building, myPosition, elevatorId, journeyTimes);
-            }
+            CallElevator(building, myPosition, elevatorId, journeyTimes);
         }
 
         private static void ExecuteMovementAccordingToPositions(int myPosition, Elevator currentElevator)
@@ -75,7 +58,7 @@ namespace Business.Services
                 }
                 DoorOpenClose(currentElevator);
             }
-            else
+            else if (myPosition > currentElevator.Floor)
             {
                 currentElevator.Status = StatusAndDirection.MovingUp;
                 for (int i = currentElevator.Floor; i <= myPosition; i++)
@@ -85,6 +68,11 @@ namespace Business.Services
                     Logger.AddLogToFile($"Elevator @floor{ i } at @{DateTime.Now}\r\n");
                 }
                 DoorOpenClose(currentElevator);
+            }
+            else
+            {
+                DoorOpenClose(currentElevator);
+                currentElevator.Status = StatusAndDirection.Chilling;
             }
         }
 
