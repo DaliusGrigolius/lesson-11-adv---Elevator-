@@ -45,7 +45,10 @@ namespace Business.Services
 
             currentElevator.Floor = myPosition;
             Random random = new();
-            myPosition = random.Next(1, currentBuilding.Floors + 1);
+            if (numberOfTravelPoints != 0)
+            {
+                myPosition = random.Next(1, currentBuilding.Floors + 1);
+            }
 
             CallElevator(building, myPosition, elevatorId, numberOfTravelPoints, _logger);
         }
