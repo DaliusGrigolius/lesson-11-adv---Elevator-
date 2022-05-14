@@ -30,12 +30,12 @@ namespace Business
         private static int GetFloorsNumber()
         {
             Console.Write("Enter a number of floors please: ");
-            bool floorsNumberIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out int floorsNumber);
+            bool floorsNumberIsValid = int.TryParse(Console.ReadLine(), out int floorsNumber);
             while (!floorsNumberIsValid || (floorsNumber < 2 || floorsNumber > 30))
             {
                 ChangeConsoleColorToRed();
                 Console.Write("Enter a number of floors from 2 to 30 please: ");
-                floorsNumberIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out floorsNumber);
+                floorsNumberIsValid = int.TryParse(Console.ReadLine(), out floorsNumber);
             }
 
             return floorsNumber;
@@ -45,12 +45,12 @@ namespace Business
         {
             ChangeConsoleColorToGreen();
             Console.Write("Enter the number of elevators please: ");
-            bool elevatorsNumberIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out int elevatorsNumber);
+            bool elevatorsNumberIsValid = int.TryParse(Console.ReadLine(), out int elevatorsNumber);
             while (!elevatorsNumberIsValid || (elevatorsNumber < 2 || elevatorsNumber > 10))
             {
                 ChangeConsoleColorToRed();
                 Console.Write("Enter the number of elevators from 2 to 10 please: ");
-                elevatorsNumberIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out elevatorsNumber);
+                elevatorsNumberIsValid = int.TryParse(Console.ReadLine(), out elevatorsNumber);
             }
 
             return elevatorsNumber;
@@ -60,12 +60,12 @@ namespace Business
         {
             ChangeConsoleColorToGreen();
             Console.Write("Enter how many floors you want to visit please: ");
-            bool numberOfTravelPointsIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out int numberOfTravelPoints);
+            bool numberOfTravelPointsIsValid = int.TryParse(Console.ReadLine(), out int numberOfTravelPoints);
             while (!numberOfTravelPointsIsValid || (numberOfTravelPoints < 1 || numberOfTravelPoints > 10))
             {
                 ChangeConsoleColorToRed();
                 Console.Write($"Enter how many floors you want to visit from 1 to {floorsNumber} please: ");
-                numberOfTravelPointsIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out numberOfTravelPoints);
+                numberOfTravelPointsIsValid = int.TryParse(Console.ReadLine(), out numberOfTravelPoints);
             }
 
             return numberOfTravelPoints;
@@ -75,12 +75,12 @@ namespace Business
         {
             ChangeConsoleColorToGreen();
             Console.Write("Enter your starting position in building please: ");
-            bool myPositionIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out int myPosition);
+            bool myPositionIsValid = int.TryParse(Console.ReadLine(), out int myPosition);
             while (!myPositionIsValid || (myPosition < 1 || myPosition > floorsNumber))
             {
                 ChangeConsoleColorToRed();
                 Console.Write($"Enter your starting position in building from 1 to {floorsNumber} please: ");
-                myPositionIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out myPosition);
+                myPositionIsValid = int.TryParse(Console.ReadLine(), out myPosition);
             }
 
             return myPosition;
@@ -90,12 +90,12 @@ namespace Business
         {
             ChangeConsoleColorToGreen();
             Console.Write("Enter elevator number(id) please: ");
-            bool elevatorIdIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out int elevatorId);
+            bool elevatorIdIsValid = int.TryParse(Console.ReadLine(), out int elevatorId);
             while (!elevatorIdIsValid || (elevatorId - 1 < 0 || elevatorId > elevatorsNumber))
             {
                 ChangeConsoleColorToRed();
                 Console.Write($"Enter elevator number(id) from 1 to {elevatorsNumber} please: ");
-                elevatorIdIsValid = int.TryParse(Convert.ToString(Console.ReadLine()), out elevatorId);
+                elevatorIdIsValid = int.TryParse(Console.ReadLine(), out elevatorId);
             }
             Console.WriteLine();
 
