@@ -16,8 +16,6 @@ namespace Business.Services
             }
             numberOfTravelPoints--;
 
-            CheckParameters(myPosition, currentBuilding, elevatorId);
-
             Elevator currentElevator = currentBuilding.Elevators[elevatorId];
             int elevatorPosition = currentBuilding.Elevators[elevatorId].Floor;
 
@@ -31,6 +29,13 @@ namespace Business.Services
             _logger.AddLogToFile($"Elevator chilling @floor{myPosition}\r\n", "log");
         }
 
+        private static void ElevatorInfo(int elevatorPosition, ILogger _logger)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Elevator starts at - {elevatorPosition}");
+            _logger.AddLogToFile($"Elevator starts at - {elevatorPosition}\r\n", "log");
+        }
+
         private void ExecuteCallByPositions(int myPosition, Elevator currentElevator, int numberOfTravelPoints, Building currentBuilding, int elevatorId, Building building, ILogger _logger)
         {
             Console.WriteLine($"Elevator call @{DateTime.Now} to floor {myPosition}");
@@ -40,7 +45,7 @@ namespace Business.Services
 
             currentElevator.Floor = myPosition;
             Random random = new();
-            if (numberOfTravelPoints != 0) myPosition = random.Next(1, currentBuilding.Floors + 1);
+            myPosition = random.Next(1, currentBuilding.Floors + 1);
 
             CallElevator(building, myPosition, elevatorId, numberOfTravelPoints, _logger);
         }
@@ -50,13 +55,19 @@ namespace Business.Services
             if (myPosition < currentElevator.Floor)
             {
                 currentElevator.Status = StatusAndDirection.MovingDown;
-                for (int i = currentElevator.Floor; i >= myPosition; i--) ExecuteMovement(_logger, i);
+                for (int i = currentElevator.Floor; i >= myPosition; i--)
+                {
+                    ExecuteMovement(_logger, i);
+                }
                 DoorOpenClose(currentElevator, _logger);
             }
             else if (myPosition > currentElevator.Floor)
             {
                 currentElevator.Status = StatusAndDirection.MovingUp;
-                for (int i = currentElevator.Floor; i <= myPosition; i++) ExecuteMovement(_logger, i);
+                for (int i = currentElevator.Floor; i <= myPosition; i++)
+                {
+                    ExecuteMovement(_logger, i);
+                }
                 DoorOpenClose(currentElevator, _logger);
             }
             else
@@ -71,19 +82,6 @@ namespace Business.Services
             Thread.Sleep(1000);
             Console.WriteLine($"    Elevator @floor{ i } at @{DateTime.Now}");
             _logger.AddLogToFile($"Elevator @floor{ i } at @{DateTime.Now}\r\n", "log");
-        }
-
-        private static void CheckParameters(int myPosition, Building currentBuilding, int elevatorId)
-        {
-            if (myPosition > currentBuilding.Floors || myPosition < 1) throw new Exception("Calling position is not valid");
-            if (!currentBuilding.Elevators.Exists(i => i.Id == elevatorId)) throw new Exception("No such elevator");
-        }
-
-        private static void ElevatorInfo(int elevatorPosition, ILogger _logger)
-        {
-            Console.WriteLine();
-            Console.WriteLine($"Elevator starts at - {elevatorPosition}");
-            _logger.AddLogToFile($"Elevator starts at - {elevatorPosition}\r\n", "log");
         }
 
         private static void DoorOpenClose(Elevator currentElevator, ILogger _logger)
